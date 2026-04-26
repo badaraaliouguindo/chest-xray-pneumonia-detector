@@ -295,4 +295,3 @@ with col2:
         st.markdown('<div class="model-info"><h3>Model Information</h3><ul><li><strong>Architecture:</strong> ResNet50 (fine-tuned)</li><li><strong>Training Data:</strong> 5,216 chest X-rays</li><li><strong>Classes:</strong> Normal vs Pneumonia</li><li><strong>Performance:</strong> AUC-ROC 0.970</li><li><strong>Framework:</strong> PyTorch + Streamlit</li></ul></div>', unsafe_allow_html=True)
 
 st.markdown('<hr class="divider">', unsafe_allow_html=True)
-st.markdown('<div class="footer-text">Portfolio Project — Data Science Master | Dataset: Chest X-Ray Images (Kaggle)</div>', unsafe_allow_html=True)
