@@ -188,17 +188,32 @@ class ResNet50Classifier(nn.Module):
         return self.model(x)
 
 @st.cache_resource
+@st.cache_resource
 def load_model():
     from huggingface_hub import hf_hub_download
     model_path = hf_hub_download(
         repo_id="alioubguindo/resnet50-pneumonia-detector",
         filename="resnet50_pneumonia.pth"
     )
+    
+    # On charge directement avec weights_only=False pour compatibilité
+    state_dict = torch.load(model_path, map_location='cpu', weights_only=False)
+    
     model = ResNet50Classifier()
-    model.load_state_dict(torch.load(
-        model_path,
-        map_location=torch.device('cpu')
-    ))
+    
+    # Nettoyage des clés si nécessaire
+    new_state_dict = {}
+    for k, v in state_dict.items():
+        # Supprime le préfixe "model." si présent
+        new_key = k.replace("model.", "") if k.startswith("model.") else k
+        new_state_dict[new_key] = v
+    
+    # Essai avec le state_dict original d'abord
+    try:
+        model.model.load_state_dict(new_state_dict)
+    except:
+        model.load_state_dict(state_dict)
+    
     model.eval()
     return model
 
